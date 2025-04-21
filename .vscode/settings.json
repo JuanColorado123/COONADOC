@@ -1,0 +1,14 @@
+{
+    "angular-schematics.schematicsDefaultOptions": {
+        "angular-*": {
+            "externalTemplate": true,
+            "skipStyle": true
+        }
+    },
+    "cSpell.words": [
+        "afiliacion",
+        "documentacion",
+        "PQRSDF",
+        "TEICOL"
+    ]
+}
