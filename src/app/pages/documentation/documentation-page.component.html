@@ -1,1 +1,67 @@
-<p>documentation-page works!</p>,
+<div class="container mx-auto px-4 py-12">
+  <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Documentación y Formatos</h2>
+
+  <!-- Filtros por categoría -->
+  <div class="flex flex-wrap justify-center gap-2 mb-8">
+    @for (category of getUniqueCategories(); track category) {
+      <button
+        class="px-4 py-2 rounded-full text-sm font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+        (click)="filterByCategory(category)"
+      >
+        {{ category }}
+      </button>
+    }
+    <button
+      class="px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors"
+      (click)="clearFilters()"
+    >
+      Todos
+    </button>
+  </div>
+
+  <!-- Grid de documentos -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    @for (document of filteredDocuments; track document.id) {
+      <div class="group h-[320px] [perspective:1000px] cursor-pointer">
+        <div class="relative h-full w-full rounded-xl shadow-lg transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+          <!-- Parte frontal -->
+          <div class="absolute inset-0 bg-white rounded-xl p-6 flex flex-col items-center justify-center [backface-visibility:hidden] border-2 border-gray-100">
+            <svg class="w-16 h-16 text-blue-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+              </path>
+            </svg>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2 text-center">{{ document.title }}</h3>
+            <p class="text-gray-600 text-center">{{ document.description }}</p>
+            <span class="mt-2 px-3 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
+              {{ document.category }}
+            </span>
+          </div>
+
+
+          <div class="absolute inset-0 bg-blue-50 rounded-xl p-6 flex flex-col justify-center items-center [backface-visibility:hidden] [transform:rotateY(180deg)] border-2 border-blue-200">
+            <div class="w-full h-40 bg-white mb-4 flex items-center justify-center overflow-hidden rounded-lg shadow-inner">
+              @if (document.previewImage) {
+                <img [src]="document.previewImage" [alt]="'Vista previa de ' + document.title"
+                  class="object-contain h-full">
+              } @else {
+                <p class="text-gray-500">Cargando vista previa...</p>
+              }
+            </div>
+            <div class="flex flex-wrap justify-center gap-3">
+              <button
+                class="flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
+                (click)="downloadDocument(document.pdfUrl, document.title + '.pdf'); $event.stopPropagation()">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                Descargar PDF
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

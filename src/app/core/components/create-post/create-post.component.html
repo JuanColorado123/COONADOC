@@ -1,0 +1,17 @@
+<div>
+  <shared-toast [visible]="showToast()" [message]="toastMessage()" [type]="toastType()" />
+
+  <button class="btn btn-neutral btn-outline mt-5 text-black hover:bg-[#ebac2ed0]" onclick="my_modal_4.showModal()">Crear Post</button>
+
+  <dialog id="my_modal_4" class="modal">
+    <div class="modal-box w-11/12 max-w-5xl ">
+      <create-post-details (postCreated)="handlePostCreation($event)" />
+      <div class="modal-action">
+        <form method="dialog">
+          <button class="btn btn-neutral btn-outline mt-5 text-black hover:bg-[#ebac2ed0]">Close</button>
+        </form>
+      </div>
+    </div>
+  </dialog>
+</div>
+

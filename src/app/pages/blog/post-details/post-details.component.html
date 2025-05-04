@@ -1,0 +1,90 @@
+<section class="container mx-auto flex-grow">
+  <!-- Estado de carga -->
+  @if (postResource.isLoading()) {
+  <div class="flex justify-center items-center h-screen w-full">
+    <span class="loading loading-spinner text-success loading-xl"></span>
+  </div>
+  }
+
+  <!-- Estado de error -->
+  @else if (postResource.error()) {
+  <div class="alert alert-error max-w-4xl mx-auto mt-8">
+    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <span>Error al cargar el post: {{ postResource.error() }}</span>
+  </div>
+  }
+
+  <!-- Contenido principal -->
+  @if (postResource.hasValue()) {
+  <div class="container px-4 py-8 mx-auto sm:px-6 lg:px-8 lg:py-12">
+    <!-- Encabezado -->
+    <div class="text-center mb-12">
+      <h1 class="text-3xl font-bold text-gray-900 sm:text-4xl md:text-5xl">
+        {{ postResource.value().name }}
+      </h1>
+      <div class="mt-4 flex justify-center">
+        <span class="inline-block w-20 h-1.5 rounded-full bg-blue-600"></span>
+        <span class="inline-block w-3 h-1.5 ml-1 rounded-full bg-blue-400"></span>
+        <span class="inline-block w-1 h-1.5 ml-1 rounded-full bg-blue-300"></span>
+      </div>
+    </div>
+
+    <!-- Contenido en dos columnas (stack en móvil) -->
+    <div class="flex flex-col lg:flex-row gap-12 items-center">
+      <!-- Columna izquierda (contenido) -->
+      <div class="w-full lg:w-1/2 space-y-8">
+        <!-- Sección del autor -->
+        <div class="flex flex-col sm:flex-row gap-6 items-start">
+          <div class="flex flex-col items-center gap-2">
+            <img class="w-16 h-16 rounded-full object-cover border-2 border-green-600"
+              src="assets/images-carousel/carousel-turismo.jpg" alt="Foto de {{ postResource.value().postedBy }}">
+            <div class="text-center">
+              <p class="font-medium text-gray-900">{{ postResource.value().postedBy }}</p>
+              <p class="text-sm text-gray-500">{{ postResource.value().date | date:'mediumDate' }}</p>
+            </div>
+          </div>
+
+          <div class="flex-1">
+            <p class="mt-3 text-gray-600 leading-relaxed">
+              {{ postResource.value().content }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha (imagen) -->
+      <div class="w-full lg:w-1/2 flex justify-center">
+        <img class="w-full max-w-md lg:max-w-lg xl:max-w-xl rounded-2xl shadow-xl object-cover aspect-square"
+          src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=755&q=80"
+          alt="Imagen ilustrativa del post">
+      </div>
+    </div>
+
+    <!-- Separador -->
+    <hr class="my-12 border-gray-200">
+
+    <!-- Tags - Versión mejorada -->
+    <div class="text-center mb-8">
+      <h3 class="text-xl font-semibold text-gray-800 mb-6">
+        Etiquetas relacionadas
+      </h3>
+      <div class="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
+        @for (tag of postResource.value().tags; track tag.name) {
+        <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-green-100 text-green-800">
+          #{{ tag.name }}
+        </span>
+        }
+      </div>
+    </div>
+  </div>
+  }
+
+</section>
+
+
+<section class="rounded-b-lg  mt-4 ">
+  <core-comment-post [postId]="postResource.value()!.id"/>
+</section>

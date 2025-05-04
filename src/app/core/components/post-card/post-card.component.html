@@ -1,0 +1,60 @@
+<div class="flex flex-col lg:flex-row relative">
+
+  <!-- Botón con comportamiento diferente en móvil y desktop -->
+  <div class="absolute top-2 right-2 lg:absolute {{ index() % 2 === 0 ? 'lg:right-2' : 'lg:left-2' }} z-10">
+    <button [routerLink]="['/detail/',postInput().id]" class="btn btn-ghost btn-sm">
+      <img src="assets/svg/more-info.svg" alt="more-info" class="w-6 h-6">
+    </button>
+  </div>
+
+  <!-- Contenedor principal -->
+  <div class="flex flex-col lg:flex-row {{ index() % 2 === 0 ? '' : 'lg:flex-row-reverse' }} w-full">
+
+    <!-- Imagen -->
+    <div class="w-full lg:w-2/5 h-48 lg:h-auto bg-gray-50">
+      <img src="assets/images-carousel/carousel-noticias.jpg" alt="Imagen de la tarjeta"
+        class="w-full h-full object-cover">
+    </div>
+
+    <!-- Contenido -->
+    <div class="w-full lg:w-3/5 p-4 lg:p-6 flex flex-col">
+      <h3 class="text-xl font-bold mb-3 text-gray-800">{{ postInput().name }}</h3>
+      <p class="text-gray-600 mb-4">{{ postInput().content | slice: 0 : 400 }}...</p>
+
+      <div class="flex items-center mt-auto mb-4">
+        <img class="w-8 h-8 rounded-full mr-3" src="assets/images-carousel/carousel-turismo.jpg"
+          [alt]="'Avatar de ' + postInput().postedBy">
+        <div>
+          <p class="font-medium text-sm text-gray-700">{{ postInput().postedBy }}</p>
+          <p class="text-xs text-amber-600">{{ postInput().date | date}}</p>
+        </div>
+      </div>
+
+      <div class="stats stats-horizontal shadow w-full mt-2">
+        <div class="stat p-2">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="stat-title text-xs text-gray-600">Vistas</div>
+              <div class="stat-value text-sm text-gray-700 font-bold">{{ post()?.viewCount }}</div>
+            </div>
+            <button (click)="viewCount()" class="btn btn-ghost p-0 hover:bg-green-50">
+              <img src="assets/svg/view.svg" alt="vistas" class="w-6 h-6">
+            </button>
+          </div>
+        </div>
+
+        <div class="stat p-2">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="stat-title text-xs text-gray-600">Me gustas</div>
+              <div class="stat-value text-sm text-gray-700 font-bold">{{ post()?.likeCount }}</div>
+            </div>
+            <button (click)="likeCount()" class="btn btn-ghost p-0 hover:bg-amber-50">
+              <img src="assets/svg/like.svg" alt="me gusta" class="w-6 h-6">
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

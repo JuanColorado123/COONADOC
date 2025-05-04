@@ -1,1 +1,31 @@
-<p>blog-page works!</p>,
+<div class="container mx-auto flex-grow">
+  <core-create-post />
+</div>
+
+@if (postsResource.isLoading()) {
+<div class="flex justify-center items-center h-screen w-full">
+  <span class="loading loading-spinner text-success loading-xl"></span>
+</div>
+} @else if (postsResource.error()) {
+<div class="alert alert-error">
+  Error al cargar los posts
+</div>
+} @else {
+@if (postsResource.value()?.length === 0) {
+<div class="flex justify-center items-center h-screen w-full">
+  <h1 class="text-2xl text-primary">No hay ninguna publicación</h1>
+</div>
+} @else {
+<div class="container mx-auto px-4 py-8">
+  <div class="space-y-6">
+    @for (post of postsResource.value(); track post.id; let i = $index) {
+    <div class="border border-gray-200 rounded-xl shadow-sm overflow-hidden bg-white">
+      <core-post-card [postInput]="post" [index]="i" />
+    </div>
+    }
+  </div>
+</div>
+}
+}
+
+<router-outlet />
